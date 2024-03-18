@@ -10,7 +10,7 @@ export const register = async (req, res) => {
     const passhash = bcrypt.hashSync(password, salt);
 
     if (password.length < 8) {
-      return res.status(402).json("Password minimal 8 karakter");
+      return res.status(402).json({ message: "Password minimal 8 karakter" });
     } else if (validator.isEmail(email)) {
       const result = await models.users.create({
         username: username,
@@ -22,7 +22,7 @@ export const register = async (req, res) => {
         .status(200)
         .json({ data: result, message: "Berhasil membuat akun" });
     } else {
-      return res.status(402).json("Email tidak sesuai format");
+      return res.status(402).json({ message: "Email tidak sesuai format" });
     }
   } catch (error) {
     return res.status(500).json({ message: error.message });
@@ -41,7 +41,9 @@ export const login = async (req, res) => {
       res.status(402).json("Email tidak ditemukan!");
     } else {
       if (bcrypt.compareSync(password, user.password)) {
-        const token = jwt.sign({ email: user.email }, process.env.SECRET_KEY);
+        const token = jwt.sign({ email: user.email }, process.env.SECRET_KEY, {
+          expiresIn: "12h",
+        });
         res
           .status(200)
           .json({ data: user, token: token, message: "Berhasil login" });

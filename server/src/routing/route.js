@@ -6,18 +6,20 @@ import {
   getAllTransaksi,
   transfer,
 } from "../controllers/transaksi.js";
+import { accesValidation } from "../controllers/midleware/auth.js";
 
 const router = Router();
 
 router.post("/register", register);
 router.post("/login", login);
-router.get("/users/:user_id", getUser);
-router.put("/users/:user_id", topUp);
+router.get("/users/:user_id", accesValidation, getUser);
+router.put("/users/:user_id", accesValidation, topUp);
 
-router.get("/bank", getAllBank);
+router.get("/bank", accesValidation, getAllBank);
 router.post("/bank", createBank);
 
-router.get("/transaksi", getAllTransaksi);
+router.get("/transaksi", accesValidation, getAllTransaksi);
 router.post("/transaksi", createTransaksi);
-router.put("/transaksi/:user_id", transfer);
+router.put("/transaksi/:user_id", accesValidation, transfer);
+
 export default router;
