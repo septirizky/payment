@@ -1,33 +1,37 @@
 import _sequelize from 'sequelize';
 const { Model, Sequelize } = _sequelize;
 
-export default class users extends Model {
+export default class transaksi extends Model {
   static init(sequelize, DataTypes) {
   return super.init({
-    user_id: {
+    transaksi_id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true
     },
-    username: {
-      type: DataTypes.STRING(20),
+    transaksi_name: {
+      type: DataTypes.STRING(50),
       allowNull: true
     },
-    password: {
-      type: DataTypes.STRING(200),
-      allowNull: true
-    },
-    user_saldo: {
+    transaksi_harga: {
       type: DataTypes.INTEGER,
       allowNull: true
     },
-    user_bank_id: {
+    transaksi_bank_id: {
       type: DataTypes.INTEGER,
       allowNull: true,
       references: {
         model: 'bank',
         key: 'bank_id'
+      }
+    },
+    transaksi_user_id: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      references: {
+        model: 'users',
+        key: 'user_id'
       }
     },
     createdat: {
@@ -39,26 +43,18 @@ export default class users extends Model {
       type: DataTypes.DATE,
       allowNull: true,
       defaultValue: Sequelize.Sequelize.literal('CURRENT_TIMESTAMP')
-    },
-    email: {
-      type: DataTypes.STRING(50),
-      allowNull: true
-    },
-    photo: {
-      type: DataTypes.STRING(200),
-      allowNull: true
     }
   }, {
     sequelize,
-    tableName: 'users',
+    tableName: 'transaksi',
     schema: 'public',
     timestamps: false,
     indexes: [
       {
-        name: "users_pkey",
+        name: "transaksi_pkey",
         unique: true,
         fields: [
-          { name: "user_id" },
+          { name: "transaksi_id" },
         ]
       },
     ]

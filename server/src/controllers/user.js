@@ -1,20 +1,29 @@
 import bcrypt from "bcrypt";
 import models from "../model/init-models.js";
+import jwt from "jsonwebtoken";
+import validator from "validator";
 
 export const register = async (req, res) => {
   try {
-    const { username, password } = req.body;
+    const { username, email, password } = req.body;
     const salt = bcrypt.genSaltSync(10);
     const passhash = bcrypt.hashSync(password, salt);
 
-    const result = await models.users.create({
-      username: username,
-      password: passhash,
-      user_saldo: 0,
-    });
-    return res
-      .status(200)
-      .json({ data: result, message: "Berhasil membuat akun" });
+    if (password.length < 8) {
+      return res.status(402).json("Password minimal 8 karakter");
+    } else if (validator.isEmail(email)) {
+      const result = await models.users.create({
+        username: username,
+        email: email,
+        password: passhash,
+        user_saldo: 0,
+      });
+      return res
+        .status(200)
+        .json({ data: result, message: "Berhasil membuat akun" });
+    } else {
+      return res.status(402).json("Email tidak sesuai format");
+    }
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
@@ -22,17 +31,20 @@ export const register = async (req, res) => {
 
 export const login = async (req, res) => {
   try {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
     const user = await models.users.findOne({
       where: {
-        username: username,
+        email: email,
       },
     });
     if (!user) {
-      res.status(404).json("User tidak ditemukan!");
+      res.status(402).json("Email tidak ditemukan!");
     } else {
       if (bcrypt.compareSync(password, user.password)) {
-        res.status(200).json({ data: user, message: "Berhasil login" });
+        const token = jwt.sign({ email: user.email }, process.env.SECRET_KEY);
+        res
+          .status(200)
+          .json({ data: user, token: token, message: "Berhasil login" });
       } else {
         res.status(400).json("Password Salah!");
       }

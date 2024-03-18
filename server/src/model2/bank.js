@@ -1,34 +1,22 @@
 import _sequelize from 'sequelize';
 const { Model, Sequelize } = _sequelize;
 
-export default class users extends Model {
+export default class bank extends Model {
   static init(sequelize, DataTypes) {
   return super.init({
-    user_id: {
+    bank_id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true
     },
-    username: {
-      type: DataTypes.STRING(20),
+    bank_name: {
+      type: DataTypes.STRING(10),
       allowNull: true
     },
-    password: {
-      type: DataTypes.STRING(200),
-      allowNull: true
-    },
-    user_saldo: {
+    bank_saldo: {
       type: DataTypes.INTEGER,
       allowNull: true
-    },
-    user_bank_id: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-      references: {
-        model: 'bank',
-        key: 'bank_id'
-      }
     },
     createdat: {
       type: DataTypes.DATE,
@@ -39,26 +27,18 @@ export default class users extends Model {
       type: DataTypes.DATE,
       allowNull: true,
       defaultValue: Sequelize.Sequelize.literal('CURRENT_TIMESTAMP')
-    },
-    email: {
-      type: DataTypes.STRING(50),
-      allowNull: true
-    },
-    photo: {
-      type: DataTypes.STRING(200),
-      allowNull: true
     }
   }, {
     sequelize,
-    tableName: 'users',
+    tableName: 'bank',
     schema: 'public',
     timestamps: false,
     indexes: [
       {
-        name: "users_pkey",
+        name: "bank_pkey",
         unique: true,
         fields: [
-          { name: "user_id" },
+          { name: "bank_id" },
         ]
       },
     ]

@@ -19,6 +19,7 @@ const sequelize = new Sequelize(
     },
   }
 );
+
 function initModels(sequelize) {
   const bank = _bank.init(sequelize, DataTypes);
   const transaksi = _transaksi.init(sequelize, DataTypes);
