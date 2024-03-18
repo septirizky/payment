@@ -5,7 +5,7 @@ import Swal from "sweetalert2";
 import { LoginUsers } from "../Actions/actions";
 
 export const Login = () => {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLogin, setIsLogin] = useState("");
 
@@ -21,7 +21,7 @@ export const Login = () => {
   const login = (event) => {
     event.preventDefault();
     setIsLogin(true);
-    dispatch(LoginUsers({ username: username, password: password }));
+    dispatch(LoginUsers({ email: email, password: password }));
   };
 
   useEffect(() => {
@@ -31,8 +31,8 @@ export const Login = () => {
         ? loginResult.data
           ? Swal.fire({
               title: "Login Success",
-              html: "You'll be directed",
-              timer: 1500,
+              html: "Mohon tunggu",
+              timer: 2500,
               showConfirmButton: false,
               timerProgressBar: true,
               willClose: () => {
@@ -65,11 +65,11 @@ export const Login = () => {
                 <div className="d-flex align-items-center justify-content-center w-100">
                   <input
                     type="text"
-                    value={username}
-                    onChange={(event) => setUsername(event.target.value)}
+                    value={email}
+                    onChange={(event) => setEmail(event.target.value)}
                     className="form-control mb-2 w-50"
-                    name="username"
-                    placeholder="Username"
+                    name="email"
+                    placeholder="email"
                     required
                   />
                 </div>

@@ -25,6 +25,7 @@ export const Register = () => {
       if (result.isConfirmed) {
         const dataJson = {
           username: data.username,
+          email: data.email,
           password: data.password,
         };
         setIsRegister(true);
@@ -89,6 +90,15 @@ export const Register = () => {
                 className="form-control mb-2"
                 name="username"
                 placeholder="username"
+                minLength="6"
+                required
+              />
+              <input
+                type="email"
+                {...register("email")}
+                className="form-control mb-2"
+                name="email"
+                placeholder="email"
                 minLength="6"
                 required
               />
