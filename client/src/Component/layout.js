@@ -1,6 +1,6 @@
 import React from "react";
 import "./css/styles.css";
-import { Outlet, Link, useLocation } from "react-router-dom";
+import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
 import { BsPerson, BsPersonCircle } from "react-icons/bs";
 import { IoIosCash } from "react-icons/io";
 import { MdApartment } from "react-icons/md";
@@ -10,6 +10,8 @@ import { useEffect, useState } from "react";
 const Layout = () => {
   const pathname = useLocation();
   const [burgerActive, setBurgerActive] = useState(false);
+
+  const navigate = useNavigate();
 
   const sidebarToggler = (event) => {
     event.preventDefault();
@@ -55,7 +57,7 @@ const Layout = () => {
               aria-labelledby="navbarDropdown"
             >
               <li>
-                <a className="dropdown-item" href="#!">
+                <a className="dropdown-item" href="/profil">
                   Profile
                 </a>
               </li>
@@ -63,7 +65,11 @@ const Layout = () => {
                 <hr className="dropdown-divider" />
               </li>
               <li>
-                <a className="dropdown-item" href="/">
+                <a
+                  className="dropdown-item"
+                  onClick={() => navigate("/logout")}
+                  href="/login"
+                >
                   Logout
                 </a>
               </li>
@@ -81,26 +87,26 @@ const Layout = () => {
               <div className="nav">
                 <div className="sb-sidenav-menu-heading text-warning">Menu</div>
                 <Link
-                  to="/users"
+                  to="/"
                   className={`nav-link ${
-                    pathname.pathname === "/users" ? "active" : ""
-                  }`}
-                >
-                  <div className="sb-nav-link-icon">
-                    <BsPerson size="26" />
-                  </div>
-                  Accounts
-                </Link>
-                <Link
-                  to="/users/transaksi"
-                  className={`nav-link ${
-                    pathname.pathname === "/users/transaksi" ? "active" : ""
+                    pathname.pathname === "/transaksi" ? "active" : ""
                   }`}
                 >
                   <div className="sb-nav-link-icon">
                     <IoIosCash size="26" />
                   </div>
                   Transaction
+                </Link>
+                <Link
+                  to="/profil"
+                  className={`nav-link ${
+                    pathname.pathname === "/profil" ? "active" : ""
+                  }`}
+                >
+                  <div className="sb-nav-link-icon">
+                    <BsPerson size="26" />
+                  </div>
+                  Accounts
                 </Link>
               </div>
             </div>

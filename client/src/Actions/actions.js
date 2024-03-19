@@ -1,4 +1,5 @@
 import axios from "axios";
+import Cookies from "js-cookie";
 
 export const LOGIN = "LOGIN";
 export const REGISTER = "REGISTER";
@@ -67,6 +68,9 @@ export const LoginUsers = (data) => {
     })
       .then((res) => {
         sessionStorage.setItem("userdata", JSON.stringify(res.data));
+        Cookies.set("Authorization", res.data.token);
+        // console.log(res.data.data);
+        console.log(res.data.token);
         dispatch({
           type: LOGIN,
           payload: {
@@ -103,6 +107,9 @@ export const getUser = (user_id) => {
     axios({
       method: "GET",
       url: "http://localhost:3200/users/" + user_id,
+      headers: {
+        Authorization: Cookies.get("Authorization"),
+      },
       timeout: 120000,
     })
       .then((response) => {
@@ -144,6 +151,9 @@ export const getBank = () => {
     axios({
       method: "GET",
       url: "http://localhost:3200/bank",
+      headers: {
+        Authorization: Cookies.get("Authorization"),
+      },
       timeout: 120000,
     })
       .then((response) => {
@@ -184,6 +194,9 @@ export const topUp_Saldo = (data, user_id) => {
     await axios({
       method: "PUT",
       url: "http://localhost:3200/users/" + user_id,
+      headers: {
+        Authorization: Cookies.get("Authorization"),
+      },
       data: data,
       timeout: 120000,
     })
@@ -221,11 +234,12 @@ export const getTransaksi = () => {
         errorMessage: false,
       },
     });
-
-    //getAPI
     axios({
       method: "GET",
       url: "http://localhost:3200/transaksi",
+      headers: {
+        Authorization: Cookies.get("Authorization"),
+      },
       timeout: 120000,
     })
       .then((response) => {
@@ -264,6 +278,9 @@ export const transfer = (data) => {
     await axios({
       method: "PUT",
       url: "http://localhost:3200/transaksi/" + data.user_id,
+      headers: {
+        Authorization: Cookies.get("Authorization"),
+      },
       data: data,
       timeout: 120000,
     })

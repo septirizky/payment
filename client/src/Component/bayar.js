@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
-import { getTransaksi, transfer } from "../Actions/actions";
+import { getTransaksi, getUser, transfer } from "../Actions/actions";
 
 const Bayar = (props) => {
   const { transaksi, setTransaksi } = props;
@@ -32,6 +32,7 @@ const Bayar = (props) => {
       if (result.isConfirmed) {
         setIsBayar(true);
         dispatch(transfer(data));
+        dispatch(getUser(data.user_id));
       }
     });
   };
@@ -45,7 +46,6 @@ const Bayar = (props) => {
           icon: "success",
         }).then(() => {
           setTransaksi("");
-
           dispatch(getTransaksi());
         });
       } else if (bayarError) {
@@ -56,7 +56,6 @@ const Bayar = (props) => {
         });
       }
     }
-
     dispatch(getTransaksi());
     // eslint-disable-next-line
   }, [bayarResult, bayarError]);

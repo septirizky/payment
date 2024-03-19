@@ -13,11 +13,13 @@ export const Login = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const getDataSession = () => {
     const keyString = sessionStorage.getItem("userdata");
     return JSON.parse(keyString);
   };
   const data = getDataSession() ? getDataSession() : false;
+
   const login = (event) => {
     event.preventDefault();
     setIsLogin(true);
@@ -40,11 +42,11 @@ export const Login = () => {
               },
             }).then((result) => {
               if (result.dismiss) {
-                navigate("/users");
+                navigate("/");
               }
             })
           : Swal.fire("Login Failed", loginError, "error")
-        : navigate("/");
+        : navigate("/login");
     }
     if (loginError) {
       Swal.fire("Login Failed", loginError, "error");
