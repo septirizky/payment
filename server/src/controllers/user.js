@@ -6,6 +6,25 @@ import validator from "validator";
 export const register = async (req, res) => {
   try {
     const { username, email, password } = req.body;
+
+    const checkUsername = await models.users.findOne({
+      where: {
+        username: username,
+      },
+    });
+
+    if (checkUsername) {
+      return res.status(400).json({
+        message: `Username ${username} sudah ada, harap masukkan username lain`,
+      });
+    }
+    let image = req.file;
+    if (!image) {
+      image = "uploads\\noavatar.png";
+    } else {
+      image = image.path;
+    }
+
     const salt = bcrypt.genSaltSync(10);
     const passhash = bcrypt.hashSync(password, salt);
 
@@ -17,6 +36,7 @@ export const register = async (req, res) => {
         email: email,
         password: passhash,
         user_saldo: 0,
+        image: image,
       });
       return res
         .status(200)
@@ -25,6 +45,7 @@ export const register = async (req, res) => {
       return res.status(402).json({ message: "Email tidak sesuai format" });
     }
   } catch (error) {
+    if (req.file) fs.unlinkSync(req.file.path);
     return res.status(500).json({ message: error.message });
   }
 };

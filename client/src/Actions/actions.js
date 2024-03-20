@@ -69,8 +69,6 @@ export const LoginUsers = (data) => {
       .then((res) => {
         sessionStorage.setItem("userdata", JSON.stringify(res.data));
         Cookies.set("Authorization", res.data.token);
-        // console.log(res.data.data);
-        console.log(res.data.token);
         dispatch({
           type: LOGIN,
           payload: {

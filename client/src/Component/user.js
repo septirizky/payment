@@ -46,6 +46,9 @@ const User = () => {
         <div className="card-header border border-warning text-white text-center bg-dark">
           <h1>Account</h1>
         </div>
+        <div className="card-header border border-warning">
+          <img src={getUserResult.image} className="card-img-top" alt="..." />
+        </div>
         <div className="card-body">
           <div class="row justify-content-evenly">
             <div class="col-4">

@@ -6,11 +6,12 @@ import {
   getAllTransaksi,
   transfer,
 } from "../controllers/transaksi.js";
-import { accesValidation } from "../controllers/midleware/auth.js";
+import { accesValidation } from "../midleware/auth.js";
+import { uploadUser } from "../midleware/multer.js";
 
 const router = Router();
 
-router.post("/register", register);
+router.post("/register", uploadUser.single("image"), register);
 router.post("/login", login);
 router.get("/users/:user_id", accesValidation, getUser);
 router.put("/users/:user_id", accesValidation, topUp);
